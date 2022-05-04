@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Delineation.Models.D_Res>
+
+@{
+    ViewData["Title"] = "Подразделения";
+}
+
+    <h1>Подразделения</h1>
+
+<p>
+    <a asp-action="Create">Добавить новое</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                Представители РЭС:
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <td>
+                            начальник:
+                        </td>
+                        <td>
+                            <i>@(item.Nach?.Surname + " " + item.Nach?.Name + " " + item.Nach?.Patronymic)</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            зам.нач. по сбыту:
+                        </td>
+                        <td>
+                            <i>@(item.ZamNach?.Surname + " " + item.ZamNach?.Name + " " + item.ZamNach?.Patronymic)</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            гл. инженер:
+                        </td>
+                        <td>
+                            <i>@(item.GlInzh?.Surname + " " + item.GlInzh?.Name + " " + item.GlInzh?.Patronymic)</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            бухгалтер:
+                        </td>
+                        <td>
+                            <i>@(item.Buh?.Surname + " " + item.Buh?.Name + " " + item.Buh?.Patronymic)</i>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Подробно</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

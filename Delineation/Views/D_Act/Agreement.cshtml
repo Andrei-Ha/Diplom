@@ -1,0 +1,136 @@
+﻿@model Delineation.Models.D_Act
+
+@{
+    ViewData["Title"] = "Согласование";
+}
+
+<h2>Согласование</h2>
+<hr />
+<script>
+function includeHTML() {
+  var z, i, elmnt, file, xhttp;
+  /*loop through a collection of all HTML elements:*/
+  z = document.getElementsByTagName("*");
+  for (i = 0; i < z.length; i++) {
+    elmnt = z[i];
+      /*search for elements with a certain atrribute:*/
+      file = elmnt.getAttribute("w3-include-html");
+    if (file) {
+      /*make an HTTP request using the attribute value as the file name:*/
+      xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+          if (this.readyState == 4) {
+              if (this.status == 200) { elmnt.innerHTML = this.responseText.replace("act_files","../output/act_files"); }
+          if (this.status == 404) {elmnt.innerHTML = "Page not found. -" + file;}
+          /*remove the attribute, and call this function once more:*/
+          elmnt.removeAttribute("w3-include-html");
+          includeHTML();
+        }
+      }
+      xhttp.open("GET", file, true);
+      xhttp.send();
+      /*exit the function:*/
+      return;
+    }
+  }
+};
+</script>
+@{
+    string  html_file = Model.Id.ToString() + ".html",
+            png_file = Model.Id.ToString() + ".png";
+    }
+<div w3-include-html="/Output/html/@html_file"></div>
+<div class="text-center">
+    <img src="~/Output/png/@png_file" width="1000" />
+</div>
+<script>
+    includeHTML();
+</script>
+<style type="text/css">
+    .table_block {
+        border-radius: 15px;
+        border: 1px solid blue;
+        display: block;
+        padding: 10px;
+    }
+</style>
+<form method="post">
+    <input type="hidden" name="Act_id" value="@Model.Id" />       
+    <fieldset style="width:100%;">
+        <legend style="color:blue">Лист согласования:</legend>
+        <table class="table_block" width="100%">
+            <thead>
+                <tr>
+                    <th width="20%">
+                        должность
+                    </th>
+                    <th width="25%">
+                        ФИО
+                    </th>
+                    <th width="15%" style="text-align:center">
+                        согласовано
+                    </th>
+                    <th width="30%">
+                        замечания
+                    </th>
+                    <th width="10%">
+                        
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (D_Agreement d_Agreement in (List<D_Agreement>)ViewBag.Agreements)
+                {
+                    if (d_Agreement.Person.Linom == ViewBag.LinomUser && d_Agreement.Info==null)
+                    {
+                <tr style="background-color:lightgray">
+                    <td>
+                        @d_Agreement.Person.Position.Name
+                    </td>
+                    <td>
+                        @d_Agreement.Person.LineFIO()
+                    </td>
+                    <td style="text-align:center">
+                        <label for="agree1">да</label>
+                        <input type="radio" id="agree1" name="agree" value="1" checked="checked"><br />
+                        <label for="agree2">нет</label>
+                        <input type="radio" id="agree2" name="agree" value="0">
+                    </td>
+                    <td>
+                        <textarea name="Note" cols="40" rows="3"></textarea>
+                    </td>
+                    <td>
+                        <input type="hidden" name="Agr_id" value="@d_Agreement.Id" />
+                        <input type="submit" value="Сохранить" />
+                    </td>
+                </tr>
+                    }
+                    else
+                    {
+                <tr>
+                    <td>
+                        @d_Agreement.Person.Position.Name
+                    </td>
+                    <td>
+                        @d_Agreement.Person.LineFIO()
+                    </td>
+                    <td style="text-align:center">
+                        @{
+                            string sAccept = d_Agreement.Accept ? "да" : "нет", sDate = "";
+                            if (d_Agreement.Info != null) { sDate = "(" + d_Agreement.Info.Split('/')[0] + ")"; }
+                        }
+                        @sAccept @sDate
+                    </td>
+                    <td>
+                        @d_Agreement.Note
+                    </td>
+                    <td>
+                        
+                    </td>
+                </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </fieldset>
+</form>

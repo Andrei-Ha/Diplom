@@ -1,0 +1,76 @@
+﻿@model Delineation.Models.D_Res
+
+@{
+    ViewData["Title"] = "Добавление";
+}
+
+    <h1>Добавление</h1>
+
+<h4>Подразделение</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RESa" class="control-label"></label>
+                <input asp-for="RESa" class="form-control" />
+                <span asp-validation-for="RESa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RESom" class="control-label"></label>
+                <input asp-for="RESom" class="form-control" />
+                <span asp-validation-for="RESom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NachId" class="control-label"></label>
+                <select asp-for="NachId" class="form-control" asp-items="ViewBag.NachId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="FIOnachRod" class="control-label"></label>
+                <input asp-for="FIOnachRod" class="form-control" />
+                <span asp-validation-for="FIOnachRod" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dover" class="control-label"></label>
+                <input asp-for="Dover" class="form-control" />
+                <span asp-validation-for="Dover" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ZamNachId" class="control-label"></label>
+                <select asp-for="ZamNachId" class="form-control" asp-items="ViewBag.ZamNachId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="GlInzhId" class="control-label"></label>
+                <select asp-for="GlInzhId" class="form-control" asp-items="ViewBag.GlInzhId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="BuhId" class="control-label"></label>
+                <select asp-for="BuhId" class="form-control" asp-items="ViewBag.BuhId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Назад к списку</a>
+</div>
+

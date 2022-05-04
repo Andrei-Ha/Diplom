@@ -1,0 +1,275 @@
+﻿@model Delineation.Models.D_Act
+@{
+    ViewData["Title"] = "Подробно";
+    List<string> listOfRes = new List<string>() { "541000", "542000", "543000", "544000", "545000", "546000" };
+}
+
+<h1>Подробно</h1>
+
+<div>
+    <h4>Акты</h4>
+    <hr />
+    <table style="width:100%">
+        <tr>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%; vertical-align:top">
+                <dl>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Date)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Date)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.IsEntity)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.IsEntity)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.EntityDoc)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.EntityDoc)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ConsBalance)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.ConsBalance)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.DevBalance)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.DevBalance)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ConsExpl)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.ConsExpl)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.DevExpl)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.DevExpl)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.IsTransit)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.IsTransit)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.FIOtrans)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.FIOtrans)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Validity)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Validity)
+                    </dd>
+                </dl>
+                @if (ViewBag.fileName != null)
+                {
+                    <img src="~/Output/png/@ViewBag.fileName" width="300" height="200" />
+                }
+            </td>
+            <td style="width:50%; vertical-align:top">
+                <dl>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.Num)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.Num)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.Date)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.Date)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.Res)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.Res.Name)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.Company)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.Company)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.FIO)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.FIO)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.ObjName)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.ObjName)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.Address)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.Address)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.Pow)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.Pow)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.Category)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.Category)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.Category2)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.Category2)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.PS) (@Html.DisplayNameFor(model => model.Tc.PSInvNum))
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.PS) (@Html.DisplayFor(model => model.Tc.PSInvNum))
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.Line10) (@Html.DisplayNameFor(model => model.Tc.Line10InvNum))
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.Line10) (@Html.DisplayFor(model => model.Tc.Line10InvNum))
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.TP) (@Html.DisplayNameFor(model => model.Tc.TPInvNum))
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.TP) (@Html.DisplayFor(model => model.Tc.TPInvNum))
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.Line04) (@Html.DisplayNameFor(model => model.Tc.Line04InvNum))
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.Line04) (@Html.DisplayFor(model => model.Tc.Line04InvNum))
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.Pillar)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.Pillar)
+                    </dd>
+                </dl>
+            </td>
+        </tr>
+    </table>
+</div>
+<style type="text/css">
+    .table_block {
+        border-radius: 15px;
+        border: 1px solid blue;
+        display: block;
+        padding: 10px;
+    }
+</style>
+@if (Model.Agreements.Count > 0)
+{
+    <fieldset style="width:100%;">
+        <legend style="color:blue">Лист согласования:</legend>
+        <table class="table_block" width="100%">
+            <thead>
+                <tr>
+                    <th width="25%">
+                        должность
+                    </th>
+                    <th width="25%">
+                        ФИО
+                    </th>
+                    <th width="20%" style="text-align:center">
+                        согласовано
+                    </th>
+                    <th width="20%">
+                        замечания
+                    </th>
+                    <th width="10%">
+                        уведомление на e-mail
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (D_Agreement d_Agreement in Model.Agreements)
+                {
+                    string notice = d_Agreement.Notice ? "<i style=\"color:green\">да<i>" : "<i style=\"color:red\">нет<i>";
+                    <tr>
+                        <td>
+                            @d_Agreement.Person.Position.Name
+                        </td>
+                        <td>
+                            @d_Agreement.Person.LineFIO()
+                        </td>
+                        <td style="text-align:center">
+                            @{
+                                string sAccept = d_Agreement.Accept ? "да" : "нет", sDate = "";
+                                if (d_Agreement.Info != null) { sDate = "(" + d_Agreement.Info.Split('/')[0] + ")"; }
+                            }
+                            @sAccept @sDate
+                        </td>
+                        <td>
+                            @d_Agreement.Note
+                        </td>
+                        <td>
+                            @Html.Raw(notice)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </fieldset>
+}
+@if (Model.State == (int)Stat.Edit && ViewBag.fileName != null)
+{
+<form asp-action="CreateAct" method="post" asp-route-id="">
+    <fieldset style="width:100%;">
+        <legend style="color:blue">Лист согласования:</legend>
+        @foreach (D_Person person in ViewBag.listPerson)
+            {
+                    <input type="checkbox" id="@person.Id" name="personidList" value="@person.Id" @if (listOfRes.Contains(person.Kod_long)) { @Html.Raw("checked=\"checked\"") ; } />
+                    <label for="@person.Id">@person.Position.Name (@person.LineFIO())</label><br />
+            }
+
+            </fieldset>
+    <input type="hidden" name="id" value="@Model.Id" />
+    <input type="hidden" name="type" value="agreement" />
+    <input type="submit" value="Сформировать для согласования" />
+</form>
+}
+    <hr />
+    <div>
+        @if (Model.State == (int)Stat.Edit)
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Id">Редактировать</a> @Html.Raw("|")
+        }
+        @if (Model.State == (int)Stat.Accepted)
+        {
+    <form asp-action="DownloadAct" asp-route-id="@Model.Id" enctype="multipart/form-data">
+        <input id="upload" type="file" name="postedFiles" accept="application/pdf" />
+        <input type="submit" value="Закачать подписанный акт" />
+    </form>
+        }
+        <a asp-action="Ind_edit">Назад к списку</a>
+    </div>

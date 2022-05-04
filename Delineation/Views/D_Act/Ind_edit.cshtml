@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Delineation.Models.D_Act>
+
+@{
+    ViewData["Title"] = "Редактирование";
+}
+    <h1 style="color:dimgray">Редактирование актов</h1>
+@*<p>
+    <a asp-action="Create">добавить новый</a>
+</p>*@
+<table class="table">
+    <thead style="text-align:center">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model=>model.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tc.Res.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tc.Num)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tc.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tc.FIO)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tc.Address)
+            </th>
+            <th>
+                к печати
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr class="@D_Act.CssClassStat(item.State)">
+            <td>
+                @D_Act.CyrStat(item.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tc.Res.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Tc.Num)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Tc.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Tc.FIO)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Tc.Address)
+            </td>
+            <td>
+                @if (((List<string>)ViewBag.fileNames).Any(p => p == item.Id.ToString()))
+                {
+                    string link = "../Output/pdf/" + item.Id + ".pdf";
+                    <a href="@link" rel="noopener noreferrer" target="_blank">открыть</a>
+                }
+            </td>
+            <td>
+                @if (item.State == 0 || item.State == 2)
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id">изменить</a><br />
+                }
+                <a asp-action="Details" asp-route-id="@item.Id">подробно</a> <br />
+                @if (item.State == 0)
+                {
+                    <a asp-action="Delete" asp-route-id="@item.Id">удалить</a>
+                }
+                else
+                {
+                    <a asp-action="Delete" asp-route-id="@item.Id">.</a>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

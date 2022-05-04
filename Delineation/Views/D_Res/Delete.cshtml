@@ -1,0 +1,72 @@
+﻿@model Delineation.Models.D_Res
+
+@{
+    ViewData["Title"] = "Удаление";
+}
+
+<h1>Удаление</h1>
+
+<h3>Вы уверены, что хотите удалить эту запись?</h3>
+<div>
+    <h4>Подразделение</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            Представители
+        </dt>
+        <dd class="col-sm-10">
+            <table>
+                <tr>
+                    <td>
+                        начальник:
+                    </td>
+                    <td>
+                        <i>@(Model.Nach?.Surname + " " + Model.Nach?.Name + " " + Model.Nach?.Patronymic)</i>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        зам.нач. по сбыту:
+                    </td>
+                    <td>
+                        <i>@(Model.ZamNach?.Surname + " " + Model.ZamNach?.Name + " " + Model.ZamNach?.Patronymic)</i>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        гл. инженер:
+                    </td>
+                    <td>
+                        <i>@(Model.GlInzh?.Surname + " " + Model.GlInzh?.Name + " " + Model.GlInzh?.Patronymic)</i>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        бухгалтер:
+                    </td>
+                    <td>
+                        <i>@(Model.Buh?.Surname + " " + Model.Buh?.Name + " " + Model.Buh?.Patronymic)</i>
+                    </td>
+                </tr>
+            </table>
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Удалить" class="btn btn-danger" /> |
+        <a asp-action="Index">Назад к списку</a>
+    </form>
+</div>

@@ -1,0 +1,200 @@
+﻿@model Delineation.Models.D_Act
+
+@{
+    ViewData["Title"] = "Редактирование";
+    string str = Model?.StrPSline10;
+    string[] arr = str.Split('/');
+    List<SelList> list = new List<SelList>();
+    foreach(string s in arr)
+    {
+        list.Add(new SelList() { Id = s, Text = s });
+    }
+    string strsel = Model.Tc.Line10 + ";" + Model.Tc.PS;
+    SelList selectedVal = new SelList() { Id = strsel, Text = strsel };
+    SelectList sel = new SelectList(list,"Id","Text",strsel);
+}
+<style type="text/css">
+    .control-label {
+        font-weight: 700;
+    }
+</style>
+    <h1>Редактирование</h1>
+<h4>Акт</h4>
+<hr />
+<dl>
+    <dd><a asp-action="Ind_edit">Назад к списку</a></dd>
+    <dt><a asp-action="Drawing" asp-route-id="@Model.Id">редактировать схему питания электроустановки</a></dt>
+</dl>
+<table style="width:100%">
+    <tr>
+        <td></td>
+    </tr>
+    <tr>
+        <td style="width:50%">
+            <div class="row">
+                <div>
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+                        <div class="form-group">
+                            <label asp-for="Date" class="control-label"></label>
+                            @Model.Date.ToString("dd.MM.yyyy")
+                            <input type="hidden" asp-for="Date" class="form-control" />
+                            <input type="hidden" asp-for="TcId" />
+                            <input type="hidden" asp-for="StrPSline10" /><br />
+                            <label for="FIOcons" class="control-label">ФИО заявителя в именительном падеже</label><br />
+                            <input type="text" class="form-control" name="FIOcons" value="@Model.Tc.FIO" />
+                        </div>
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="IsEntity" /> @Html.DisplayNameFor(model => model.IsEntity)
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="EntityDoc" class="control-label"></label>
+                            <input asp-for="EntityDoc" class="form-control"/>
+                            <span asp-validation-for="EntityDoc" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ConsBalance" class="control-label"></label>
+                            <input asp-for="ConsBalance" class="form-control"  value="Кабели вводов"/>
+                            <span asp-validation-for="ConsBalance" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DevBalance" class="control-label"></label>
+                            <input asp-for="DevBalance" class="form-control"  value="контактное присоединение кабелей вводов на линейных опорах"/>
+                            <span asp-validation-for="DevBalance" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ConsExpl" class="control-label"></label>
+                            <input asp-for="ConsExpl" class="form-control"  value="Кабели вводов"/>
+                            <span asp-validation-for="ConsExpl" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DevExpl" class="control-label"></label>
+                            <input asp-for="DevExpl" class="form-control" value="контактное присоединение кабелей вводов на линейных опорах"/>
+                            <span asp-validation-for="DevExpl" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Temp" class="control-label"></label>
+                            <select asp-for="Temp" class="form-control" asp-items ="sel"></select>
+                        </div>
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="IsTransit" /> @Html.DisplayNameFor(model => model.IsTransit)
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="FIOtrans" class="control-label"></label>
+                            <input asp-for="FIOtrans" class="form-control" />
+                            <span asp-validation-for="FIOtrans" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Validity" class="control-label"></label>
+                            <input asp-for="Validity" class="form-control" />
+                            <span asp-validation-for="Validity" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Сохранить" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </td>
+        <td style="width:50%; vertical-align:top">
+            <dl>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Tc.Num)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Tc.Num)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Tc.Date)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Tc.Date)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Tc.Res)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Tc.Res.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Tc.Company)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Tc.Company)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Tc.FIO) (@Html.DisplayNameFor(model => model.Tc.AbonNum))
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Tc.FIO) (@Html.DisplayFor(model => model.Tc.AbonNum))
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Tc.ObjName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Tc.ObjName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Tc.Address)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Tc.Address)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Tc.Pow)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Tc.Pow)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Tc.Category)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Tc.Category)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Tc.Category2)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Tc.Category2)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Tc.PS) (@Html.DisplayNameFor(model => model.Tc.PSInvNum))
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Tc.PS) (@Html.DisplayFor(model => model.Tc.PSInvNum))
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Tc.Line10) (@Html.DisplayNameFor(model => model.Tc.Line10InvNum))
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Tc.Line10) (@Html.DisplayFor(model => model.Tc.Line10InvNum))
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Tc.TP) (@Html.DisplayNameFor(model => model.Tc.TPInvNum))
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Tc.TP) (@Html.DisplayFor(model => model.Tc.TPInvNum))
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Tc.Line04) (@Html.DisplayNameFor(model => model.Tc.Line04InvNum))
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Tc.Line04) (@Html.DisplayFor(model => model.Tc.Line04InvNum))
+                <dt>
+                    @Html.DisplayNameFor(model => model.Tc.Pillar)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Tc.Pillar)
+                </dd>
+            </dl>
+        </td>
+    </tr>
+</table>
+
+

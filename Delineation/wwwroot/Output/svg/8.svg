@@ -1,0 +1,14 @@
+
+                <svg id="MySvg" style="display:inline-block" class="MySvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" onload="makeDraggable(evt)">
+                    <line id="nachalo" class="bottom"></line>
+
+                        <line class="draggable" x1="0" y1="0" x2="50" y2="0" stroke-width="2" stroke="red" transform="translate(500 50)"></line>
+                        <line class="draggable" x1="0" y1="0" x2="50" y2="0" stroke-width="2" stroke="blue" transform="translate(500 100)"></line>
+                        <text class="draggable top" x="0" y="0" transform="translate(30 30)" text-anchor="start" style="font-size:15px" alignment-baseline="middle"> ПС ПИНСК-35 (инв.№ 454762)</text>
+                        <text class="draggable top" x="0" y="0" transform="translate(56.6476 132.094)" text-anchor="start" style="font-size:15px" alignment-baseline="middle">ВЛ 10кВ №224 (инв.№ 863441)</text>
+                        <text class="draggable top" x="0" y="0" transform="translate(69.8227 193.77)" text-anchor="start" style="font-size:15px" alignment-baseline="middle">ЗТП-47 (инв.№ 0)</text>
+                        <text class="draggable top" x="0" y="0" transform="translate(103.656 266.224)" text-anchor="start" style="font-size:15px" alignment-baseline="middle">ВЛ 3 (инв.№ 8433213)</text>
+                        <text class="draggable top" x="0" y="0" transform="translate(418.076 330.595)" text-anchor="start" style="font-size:15px" alignment-baseline="middle">оп.№ 17</text>
+                    <rect id="konec" class="top" x="0" y="0" width="900" height="600" stroke="black" stroke-width="2" fill="none"></rect>
+                </svg>
+            

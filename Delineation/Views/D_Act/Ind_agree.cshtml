@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Delineation.Models.D_Act>
+
+@{
+    ViewData["Title"] = "На согласовании";
+}
+
+    <h1 style="color:#A52A2A;">Акты на согласовании</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tc.Res.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tc.Num)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tc.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tc.FIO)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tc.Address)
+            </th>
+            <th>
+
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    string link_html = "../Output/html/" + item.Id + ".html";
+    string link_png = "../Output/png/" + item.Id + ".png";
+        <tr class="inagreement">
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tc.Res.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Tc.Num)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Tc.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Tc.FIO)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Tc.Address)
+            </td>
+            <td>
+                <a asp-action="Agreement" asp-route-id="@item.Id">согласование</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

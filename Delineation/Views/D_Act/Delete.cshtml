@@ -1,0 +1,154 @@
+﻿@model Delineation.Models.D_Act
+
+@{
+    ViewData["Title"] = "Удаление";
+}
+
+    <h1>Удаление</h1>
+
+<h3>Вы уверенны, что хотите удалить эту запись?</h3>
+<div>
+    <h4>Акт</h4>
+    <hr />
+    <table style="width:100%">
+        <tr>
+            <td></td>
+        </tr>
+        <tr>
+            <td style="width:50%; vertical-align:top">
+                <dl>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Date)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Date)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.Id)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.IsEntity)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.IsEntity)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.EntityDoc)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.EntityDoc)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ConsBalance)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.ConsBalance)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.DevBalance)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.DevBalance)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ConsExpl)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.ConsExpl)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.DevExpl)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.DevExpl)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.IsTransit)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.IsTransit)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.FIOtrans)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.FIOtrans)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Validity)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Validity)
+                    </dd>
+                </dl>
+            </td>
+            <td style="width:50%; vertical-align:top">
+                <dl>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.Num)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.Num)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.Date)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.Date)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.Res)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.Res.Name)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.Company)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.Company)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.FIO)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.FIO)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.ObjName)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.ObjName)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.Address)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.Address)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.Pow)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.Pow)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Tc.Category)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Tc.Category)
+                    </dd>
+                </dl>
+            </td>
+        </tr>
+    </table>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Удалить" class="btn btn-danger" /> |
+        <a asp-action="Index">Назад к списку</a>
+    </form>
+</div>

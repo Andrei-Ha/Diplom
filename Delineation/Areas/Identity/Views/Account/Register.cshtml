@@ -1,0 +1,50 @@
+﻿@model CustomIdentity.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Регистрация нового пользователя";
+}
+<link rel="stylesheet" href="~/lib/bootstrap-select-1.13.9/css/bootstrap-select.min.css" />
+<script src="~/lib/bootstrap-select-1.13.9/js/bootstrap-select.min.js"></script>
+<script type="text/javascript">
+    function ChangeSel() {
+        let sel = document.getElementById("Linom");
+        let text = sel.options[sel.selectedIndex].text;
+        //window.alert("hello! " + text.split('-')[0].trim());
+        document.getElementById("UserName").value = text.split('-')[0].trim();
+        document.getElementById("Email").value = text.split('-')[1].trim();
+    }
+</script>
+<h4>Регистрация нового пользователя</h4>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Register">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" id="UserName" name="UserName" />
+            <input type="hidden" id="Email" name="Email" />
+            <div class="form-group">
+                <select asp-for="Linom" onchange="ChangeSel()" asp-items="ViewBag.Person" class="selectpicker show-tick form-control" title="выберите пользователя..." data-live-search="true"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PasswordConfirm" class="control-label"></label>
+                <input asp-for="PasswordConfirm" class="form-control" />
+                <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Регистрация" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('.selectpicker').selectpicker();
+    });
+</script>
+
+

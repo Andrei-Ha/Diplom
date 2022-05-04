@@ -1,0 +1,518 @@
+﻿@model Delineation.Models.D_Act;
+@{
+    ViewData["Title"] = "редактирование схемы";
+    string pict_exist = "0";
+    if (ViewBag.FileName != null) pict_exist = "1";
+}
+<style type="text/css">
+    #preview img {
+        width: 100px;
+        height: 100px;
+    }
+    /*  палитра  */
+    .tabs {
+        width: 100px;
+        padding: 0px;
+        margin: 0 auto;
+    }
+
+        .tabs > input {
+            display: none;
+        }
+
+        .tabs > div {
+            display: none;
+            padding: 12px;
+            border: 1px solid #C0C0C0;
+            background: #FFFFFF;
+        }
+
+        .tabs > label {
+            display: inline-block;
+            padding: 7px;
+            margin: 0 -5px -1px 0;
+            text-align: center;
+            color: #666666;
+            border: 1px solid #C0C0C0;
+            background: #E0E0E0;
+            cursor: pointer;
+            width: 100px;
+        }
+
+        .tabs > input:checked + label {
+            color: #000000;
+            border: 1px solid #C0C0C0;
+            border-bottom: 1px solid #FFFFFF;
+            background: #FFFFFF;
+        }
+
+    #tab_1:checked ~ #txt_1,
+    #tab_2:checked ~ #txt_2,
+    #tab_3:checked ~ #txt_3,
+    #tab_4:checked ~ #txt_4,
+    #tab_5:checked ~ #txt_5,
+    #tab_6:checked ~ #txt_6,
+    #tab_7:checked ~ #txt_7,
+    #tab_8:checked ~ #txt_8,
+    #tab_9:checked ~ #txt_9 {
+        display: block;
+    }
+    /*    */
+    .static {
+        cursor: not-allowed;
+    }
+
+    .draggable {
+        cursor: move;
+    }
+
+    .draggable-group {
+        cursor: move;
+    }
+
+    .text-center {
+        text-align: center;
+        background: lightgray;
+    }
+    /*  на весь экран  */
+    .full_screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .ssv {
+        max-height: 99vh;
+    }
+</style>
+<script src="~/lib/d3/d3.min.js"></script>
+<h4>редактирование схемы питания электроустановки</h4>
+<h5>ФИО заявителя: <i>@Model?.Tc.FIO</i> адрес:<i>@Model?.Tc.Address</i></h5>
+<script type="text/javascript">
+    function PutInPng() { // сохранение результатов
+        var img_to_cut = document.getElementById("backImg");
+        let FileName = "";
+        if (img_to_cut != null) img_to_cut.remove();
+        //-------------------   svg   --------------------
+        var html_svg = document.querySelector("svg").parentNode.innerHTML;
+        var img_src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(html_svg)));
+        document.getElementById("svg").value = encodeURIComponent(img_src)
+        //------------------------------------------------
+        var myCanvas = document.querySelector("canvas");
+        myCanvas.setAttribute('width', 1500);
+        myCanvas.setAttribute('height', 1000);
+        var context = myCanvas.getContext("2d");
+        //------------------------------------------------
+        var image = new Image;
+        image.src = img_src;
+        var image2 = new Image();
+        let raw = document.getElementById("raw");
+        if (raw.value == 1) { image2.src = "/Output/images/@ViewBag.FileName";} else {
+            image2.src = raw.value;
+            raw.value = encodeURIComponent(raw.value);
+        }
+        image.addEventListener("load", function () {
+            context.drawImage(image2, 0, 0, 1500, 1000); // 3,4 - корректировка положения подложки
+            //alert("image2");
+        })
+        image.addEventListener("load", function () {
+            context.drawImage(image, 0, 0, 1500, 1000);
+            var myCanvas = document.querySelector("canvas");
+            document.getElementById("png").value = encodeURIComponent(myCanvas.toDataURL()); //The default format type is image/png  ->  or 'image/jpeg'
+            myCanvas.parentNode.removeChild(myCanvas);
+            document.getElementById("MyFormPNG").submit();
+        })
+        //encodeURIComponent этот метод заменяет все символы, кроме:символов латинского алфавита, десятичных цифр и - _. ! ~ * ' ( ).
+        // !!!  иначе в строке myCanvas.toDataURL() при post передаче исчезнут все символы '+'
+    }
+    var act = "drag", fig = "line", figure, figSelect, rselect="1";
+    function makeDraggable(evt) {
+        {
+            var svg = evt.target;
+            //alert("hi");
+            svg.addEventListener('mousedown', startDrag);
+            svg.addEventListener('mousemove', drag);
+            svg.addEventListener('mouseup', endDrag);
+            svg.addEventListener('mouseleave', endDrag);
+            svg.addEventListener('touchstart', startDrag);
+            svg.addEventListener('touchmove', drag);
+            svg.addEventListener('touchend', endDrag);
+            svg.addEventListener('touchleave', endDrag);
+            svg.addEventListener('touchcancel', endDrag);
+            svg.addEventListener('contextmenu', rightClick);
+            /*d3.select('svg').on('click', function (d, i) {
+                // Somehow console.log the ID of the circle clicked on (if any).
+                console.log("d: " + d.value);
+            });*/
+
+            var selectedElement, offset, transform,
+                bbox, minX, maxX, minY, maxY, confined;
+
+            var boundaryX1 = 0;
+            var boundaryX2 = 900;
+            var boundaryY1 = 0;
+            var boundaryY2 = 600;
+        }
+        function getMousePosition(evt) {
+            var CTM = svg.getScreenCTM();
+            if (evt.touches) { evt = evt.touches[0]; }
+            return {
+                x: (evt.clientX - CTM.e) / CTM.a,
+                y: (evt.clientY - CTM.f) / CTM.d
+            };
+        }
+        function rightClick(evt) {
+            evt.preventDefault();
+            offset = getMousePosition(evt);
+            if (evt.target.classList.contains('draggable')) {
+                selectedElement = evt.target;
+                console.log(selectedElement);
+                let trans = selectedElement.getAttribute("transform");
+                console.log(trans);
+                bbox = selectedElement.getBBox();
+                if (trans != null) { trans += " rotate(-90 " + bbox.width/2 + " 0)"; }
+                else {
+                    trans = "rotate(90 0 0)";
+                }
+                selectedElement.setAttribute("transform", trans);
+            }
+        }
+        function startDrag(evt) {
+            offset = getMousePosition(evt);
+            if (act == "drag") {
+                if (evt.target.classList.contains('draggable') || evt.target.parentNode.classList.contains("draggable-group")) {
+                    selectedElement = evt.target;
+                    if (evt.target.parentNode.classList.contains("draggable-group")) selectedElement = evt.target.parentNode;
+
+                    // Make sure the first transform on the element is a translate transform
+                    var transforms = selectedElement.transform.baseVal;
+
+                    if (transforms.length === 0 || transforms.getItem(0).type !== SVGTransform.SVG_TRANSFORM_TRANSLATE) {
+                        // Create an transform that translates by (0, 0)
+                        var translate = svg.createSVGTransform();
+                        translate.setTranslate(0, 0);
+                        selectedElement.transform.baseVal.insertItemBefore(translate, 0);
+                    }
+
+                    // Get initial translation
+                    transform = transforms.getItem(0);
+                    offset.x -= transform.matrix.e;
+                    offset.y -= transform.matrix.f;
+                    bbox = selectedElement.getBBox();
+                    minX = boundaryX1 - bbox.x - bbox.width / 2 + 15;
+                    maxX = boundaryX2 - bbox.x - bbox.width/ 2 - 15;
+                    minY = boundaryY1 - bbox.y;
+                    maxY = boundaryY2 - bbox.y - bbox.height;
+
+                    //confined = evt.target.classList.contains('confine');
+                    //if (confined) {
+
+                    //}
+                }
+            } else if (act == "select") {
+                if (evt.target.classList.contains('draggable')) {
+                    selectedElement = evt.target;
+                    figSelect = selectedElement;
+                    //alert(selectedElement.tagName);//.getAttribute("width"));
+                    selectedElement.style.stroke = "blue";
+                }
+            } else if (act == "draw") {
+                switch (fig) {
+                    case "line":
+                        figure = d3.select("svg.MySvg")
+                            .insert("line", "text.top");
+                        figure.attr("class", "draggable")
+                            .attr("x1", offset.x)
+                            .attr("y1", offset.y)
+                            .attr("x2", offset.x)
+                            .attr("y2", offset.y)
+                            .attr("stroke-width", "1")
+                            .attr("stroke", "black");
+                        break;
+                    case "rect":
+                        figure = d3.select("svg.MySvg")
+                            .insert("rect", "text.top");
+                        figure.attr("class", "draggable")
+                            .attr("x", offset.x)
+                            .attr("y", offset.y)
+                            .attr("width", 0)
+                            .attr("height", 0)
+                            .attr("stroke-width", "1")
+                            .attr("stroke", "black")
+                            .attr("fill", "none");
+                        break;
+                    case "circle":
+                        figure = d3.select("svg.MySvg")
+                            .insert("circle", "text.top");
+                        figure.attr("class", "draggable")
+                            .attr("cx", offset.x)
+                            .attr("cy", offset.y)
+                            .attr("r", 0);
+                        break;
+                }
+            }
+        }
+
+        function drag(evt) {
+            var coord = getMousePosition(evt);
+            evt.preventDefault();
+            let dx, dy;
+            if (act == "drag") {
+                if (selectedElement) {
+
+                    dx = coord.x - offset.x;
+                    dy = coord.y - offset.y;
+
+                    if (dx < minX) { dx = minX; }
+                    else if (dx > maxX) { dx = maxX; }
+                    if (dy < minY) { dy = minY; }
+                    else if (dy > maxY) { dy = maxY; }
+                    //if (confined) {}
+                    transform.setTranslate(dx, dy);
+                }
+            } else if (act == "draw") {
+                if (figure != null) {
+                    switch (fig) {
+                        case "line":
+                            dx = Math.abs(coord.x - figure.attr("x1"));
+                            dy = Math.abs(coord.y - figure.attr("y1"))
+                            if (dx > 20 * dy)
+                                figure.attr("x2", coord.x).attr("y2", figure.attr("y1"));
+                            else if (dy > 20 * dx)
+                                figure.attr("x2", figure.attr("x1")).attr("y2", coord.y);
+                            else
+                                figure.attr("x2", coord.x).attr("y2", coord.y);
+                            break;
+                        case "rect":
+                            dx = Math.abs(coord.x - figure.attr("x"));
+                            dy = Math.abs(coord.y - figure.attr("y"))
+                            figure.attr("width", dx).attr("height", dy);
+                            break;
+                        case "circle":
+                            dx = Math.abs(coord.x - figure.attr("cx"));
+                            dy = Math.abs(coord.y - figure.attr("cy"))
+                            figure.attr("r", Math.sqrt(dx * dx + dy * dy));
+                            break;
+                    }
+                }
+            }
+        }
+
+        function endDrag(evt) {
+            selectedElement = false;
+            figure = null;
+        }
+    }
+    function AddText() {
+        var itext = document.getElementById("itext").value;
+        if (itext != "") {
+            d3.select("svg.MySvg")
+                .insert("text","rect.top")
+                .attr("class", "draggable")
+                .attr("x", 0).attr("y", 0)
+                .attr("transform","translate(450, 100)")
+                .attr("text-anchor", "start")
+                .text(itext);
+            document.getElementById("itext").value = "";
+            // выбрать "тащить"
+            document.getElementById("tab_1").checked = true;
+            act = "drag";
+        }
+    }
+    function Ffont() {
+        let allText = document.querySelectorAll("text");
+        allText.forEach(element => {
+            element.style.cssText = "font-size:" + document.getElementById("ifont").value + "px;";
+        })
+        //document.svg.style.cssText = "font-size:50px;";
+    }
+
+    function DeleteFigure() { figSelect.removeAttribute("style"); figSelect.remove(); figSelect = null; }
+</script>
+@if (ViewBag.vsd != null)
+{
+<a href="~/Output/vsd/@ViewBag.vsd" target="_blank"> схема @Model?.Tc.TP</a>
+}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+@if (ViewBag.lvsd != null)
+{
+<a href="~/Output/vsd038/@ViewBag.lvsd" target="_blank"> схема линий 0,4кВ от @Model?.Tc.TP</a>
+}
+<div id="divSvg" style="border:solid 2px gray; vertical-align:top; background-color:aliceblue">
+    <table id="tableSvg" s>
+        <tr>
+            <td width="100%">
+                <svg id="MySvg" style="display:inline-block" class="MySvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" onload="makeDraggable(evt)">
+                    @if (ViewBag.FileName != null)
+                    {
+                        <image id="backImg" xlink:href="/Output/images/@ViewBag.FileName" width="900" height="600"></image>
+                    }
+                    <line id="nachalo" class="bottom"></line>
+
+                    @if (((List<string>)ViewBag.list_svg).Count > 0)
+                    {
+                        foreach (string line in ViewBag.list_svg)
+                        {
+                            @Html.Raw(line);
+                        }
+                    }
+                    else
+                    {
+                        <line class="draggable" x1="0" y1="0" x2="50" y2="0" stroke-width="2" stroke="red" transform="translate(500 50)"></line>
+                        <line class="draggable" x1="0" y1="0" x2="50" y2="0" stroke-width="2" stroke="blue" transform="translate(500 100)"></line>
+                        @:<text class="draggable top" x="0" y="0" transform="translate(30 30)" text-anchor="start" style="font-size:15px" alignment-baseline="middle">@Model?.Tc.PS (инв.№ 454762)</text>
+                        @:<text class="draggable top" x="0" y="0" transform="translate(80 80)" text-anchor="start" style="font-size:15px" alignment-baseline="middle">@Model?.Tc.Line10 (инв.№ 863441)</text>
+                        @:<text class="draggable top" x="0" y="0" transform="translate(130 130)" text-anchor="start" style="font-size:15px" alignment-baseline="middle">@Model?.Tc.TP (инв.№ @Model.Tc.TPInvNum)</text>
+                        @:<text class="draggable top" x="0" y="0" transform="translate(180 180)" text-anchor="start" style="font-size:15px" alignment-baseline="middle">@Model?.Tc.Line04 (инв.№ 8433213)</text>
+                        @:<text class="draggable top" x="0" y="0" transform="translate(230 230)" text-anchor="start" style="font-size:15px" alignment-baseline="middle">оп.№ @Model?.Tc.Pillar</text>
+                    }
+                    <rect id="konec" class="top" x="0" y="0" width="900" height="600" stroke="black" stroke-width="2" fill="none"></rect>
+                </svg>
+            </td>
+            <td style="text-align:left;vertical-align:text-top;width:150px">
+                <button onclick="FullScreen(this); return false;" style=" width:100px;color:aliceblue; background-color:chocolate">на весь экран</button>
+                <div class="tabs">
+                    <input type="radio" name="inset" value="1" id="tab_1" checked="checked" />
+                    <label for="tab_1">тащить</label><br />
+                    <input type="radio" name="inset" value="2" id="tab_2" />
+                    <label for="tab_2">линия</label><br />
+                    <input type="radio" name="inset" value="3" id="tab_3" />
+                    <label for="tab_3">квадрат</label><br />
+                    <input type="radio" name="inset" value="4" id="tab_4" />
+                    <label for="tab_4">круг</label><br />
+                    @*<input type="radio" name="inset" value="5" id="tab_5" />
+                    <label for="tab_5">выделить</label><br />*@
+                    <input type="radio" name="inset" value="6" id="tab_6" />
+                    <label for="tab_6">текст</label><br />
+                    <div id="txt_6">
+                        <textarea rows="5" style="width:74px" id="itext"></textarea><br />
+                        <button style="width:74px" onclick="AddText(); return false;">ok</button><br />
+                        @*<label for="ifont">размер</label>
+                        <input type="text" style="width:74px" id="ifont" value="25" />
+                        <button style="width:74px" onclick="Ffont(); return false;">ok</button>*@
+                    </div>
+                    @*<input type="radio" name="inset" value="7" id="tab_7" />
+                    <label for="tab_7">фон</label>
+                    <div id="txt_7">
+
+                    </div>*@
+                    <div id="txt_1">
+                    </div>
+                    <div id="txt_2">
+                        2
+                    </div>
+                    <div id="txt_3">
+                        3
+                    </div>
+                    <div id="txt_4">
+                        4
+                    </div>
+                    @*<div id="txt_5">
+                        5
+                    </div>*@
+
+                </div>
+            </td>
+        </tr>
+    </table>
+    <input id="upload" type="file" name="postedFiles" accept="image/png, image/jpg, image/jpeg" />
+    <div id="preview"></div>
+    <button onclick="DeleteImage(); return false;">удалить</button>
+
+</div>
+<div style="text-align:center">
+    <form id="MyFormPNG" asp-action="SavePNG" method="post">
+        <input type="hidden" id="svg" name="svg" />
+        <input type="hidden" id="raw" name="raw" value="@pict_exist" />
+        <input type="hidden" id="png" name="png" />
+        <input type="hidden" id="id" name="id" value="@Model?.Id" />
+        <input type="submit" onclick="PutInPng(); return false;" value="Сохранить" />
+    </form>
+</div>
+<div>
+    <canvas width="1" height="1"></canvas>
+</div>
+@*<object type="image/svg+xml" data="~/Output/svg/22.svg"></object>*@
+<script type="text/javascript">
+    (function () {
+        var inpElem = document.getElementById('upload'),
+            divElem = document.getElementById('preview');
+
+        inpElem.addEventListener("change", function (e) {
+            DeleteImage();
+            preview(this.files[0]);
+        });
+        // Объект File содержит метаданные о файле, такие как его имя, размер и тип (в формате MIME, например, image/gif) соответственно в свойствах name, size и type.
+        function preview(file) {
+            //alert("name:" + file.name + "; size:" + file.size + "; type:" + file.type);
+            if (file.type.match(/image.*/) && file.size < 2200000) {
+                var reader = new FileReader();
+                reader.addEventListener("load", function (event) {
+                    let raw = document.getElementById("raw");
+                    raw.value = event.target.result;
+                    var svg = d3.select('svg');
+                    svg.insert("svg:image", "line.bottom")
+                        .attr('x', 0)
+                        .attr('y', 0)
+                        .attr('width', 900)
+                        .attr('height', 600)
+                        .attr("id", "backImg")
+                        .attr("xlink:href", raw.value);
+                    /*img = document.createElement('img');
+                    img.src = event.target.result;
+                    divElem.appendChild(img);*/
+                });
+
+                reader.readAsDataURL(file);
+            }
+            else { alert("загружаемая картинка должна быть не более 2 МБ!") }
+        }
+    })();
+    function DeleteImage() {
+        d3.select("image").remove();
+        document.getElementById("raw").value = "0";
+    }
+    function FullScreen(but) {
+        document.getElementById("divSvg").classList.toggle("full_screen");
+        document.getElementById("tableSvg").classList.toggle("ssv");
+        document.getElementById("MySvg").classList.toggle("ssv");
+        if (but.innerHTML == "на весь экран") {
+            document.querySelector("footer").style.position = "inherit";
+            but.innerHTML = "свернуть";
+        } else {
+            document.querySelector("footer").style.position = "absolute";
+            but.innerHTML = "на весь экран";
+        }
+    }
+    // --  палитра  --
+    var radios = document.querySelectorAll("input[type=radio]");
+    for (let element of radios) {
+        element.addEventListener("click", function (evt) {
+            switch (element.value) {
+                case "1":
+                    act = "drag";
+                    break;
+                case "2":
+                    act = "draw";
+                    fig = "line";
+                    break;
+                case "3":
+                    act = "draw";
+                    fig = "rect";
+                    break;
+                case "4":
+                    act = "draw";
+                    fig = "circle";
+                    break;
+                case "5":
+                    act = "select";
+                    break;
+                case "6":
+                    break;
+            }
+            //alert(element.value);
+        })
+    }
+</script>
