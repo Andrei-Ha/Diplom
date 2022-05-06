@@ -661,10 +661,10 @@ namespace Delineation.Controllers
                     str_DevExpl = str_b + act.DevExpl + str_e,
                     str_FIOtrans = str_b + act.FIOtrans + str_e,
                     str_Validity = str_b + act.Validity + str_e,
-                    str_Nach = str_b + act.Tc.Res.Nach.Surname + " " + act.Tc.Res.Nach.Name.Substring(0, 1) + "." + act.Tc.Res.Nach.Patronymic.Substring(0, 1) + "." + str_e,
-                    str_ZamNach = str_b + act.Tc.Res.ZamNach.Surname + " " + act.Tc.Res.ZamNach.Name.Substring(0, 1) + "." + act.Tc.Res.ZamNach.Patronymic.Substring(0, 1) + "." + str_e,
-                    str_GlInzh = str_b + act.Tc.Res.GlInzh.Surname + " " + act.Tc.Res.GlInzh.Name.Substring(0, 1) + "." + act.Tc.Res.GlInzh.Patronymic.Substring(0, 1) + "." + str_e,
-                    str_Buh = str_b + act.Tc.Res.Buh.Surname + " " + act.Tc.Res.Buh.Name.Substring(0, 1) + "." + act.Tc.Res.Buh.Patronymic.Substring(0, 1) + "." + str_e;
+                    str_Nach = act.Tc.Res.Nach.Id != 1 ? str_b + act.Tc.Res.Nach.Surname + " " + act.Tc.Res.Nach.Name.Substring(0, 1) + "." + act.Tc.Res.Nach.Patronymic.Substring(0, 1) + "." + str_e : string.Empty,
+                    str_ZamNach = act.Tc.Res.ZamNach.Id != 1 ? str_b + act.Tc.Res.ZamNach.Surname + " " + act.Tc.Res.ZamNach.Name.Substring(0, 1) + "." + act.Tc.Res.ZamNach.Patronymic.Substring(0, 1) + "." + str_e : string.Empty,
+                    str_GlInzh = act.Tc.Res.GlInzh.Id != 1 ? str_b + act.Tc.Res.GlInzh.Surname + " " + act.Tc.Res.GlInzh.Name.Substring(0, 1) + "." + act.Tc.Res.GlInzh.Patronymic.Substring(0, 1) + "." + str_e : string.Empty,
+                    str_Buh = act.Tc.Res.Buh.Id != 1 ? str_b + act.Tc.Res.Buh.Surname + " " + act.Tc.Res.Buh.Name.Substring(0, 1) + "." + act.Tc.Res.Buh.Patronymic.Substring(0, 1) + "." + str_e : string.Empty;
             string[] arrCons = str_FIOcons.Split(' ');
             string str_Cons = "";
             if (arrCons.Length >= 3)
